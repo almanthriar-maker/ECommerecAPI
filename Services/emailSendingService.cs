@@ -1,0 +1,15 @@
+﻿namespace E_CommerceSystem_API.Services
+{
+    public class emailSendingService
+    {
+
+        public void SendEmail(string to, string subject, string body)
+        {
+            // Simulate sending an email (in a real application, integrate with an email provider)
+            Console.WriteLine($"Sending email to: {to}");
+            Console.WriteLine($"Subject: {subject}");
+            Console.WriteLine($"Body: {body}");
+        }
+
+    }
+}
