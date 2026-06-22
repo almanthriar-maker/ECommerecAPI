@@ -1,5 +1,7 @@
 using E_CommerceSystem_API;
+using E_CommerceSystem_API.Controllers;
 using E_CommerceSystem_API.Services;
+using ECommerecAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -35,6 +37,12 @@ namespace ECommerecAPI
                 builder.Services.AddScoped<emailSendingService>();
                 builder.Services.AddScoped<JwtService>();
                 builder.Services.AddScoped<LoggingService>();
+                builder.Services.AddScoped<AuthServices>();
+                builder.Services.AddScoped<OrderServices>();
+                builder.Services.AddScoped<OrderProductServices>();
+                builder.Services.AddScoped<ProductServices>();
+                builder.Services.AddScoped<ReviewServices>();
+                builder.Services.AddScoped<UserServices>();
 
                 // Read JWT config
                 var jwtKey = builder.Configuration["Jwt:Key"]!;

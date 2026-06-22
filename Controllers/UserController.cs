@@ -1,66 +1,31 @@
-﻿using E_CommerceSystem_API.DTOs;
-using E_CommerceSystem_API.Models;
-using E_CommerceSystem_API.Services;
+﻿using E_CommerceSystem_API.Services;
+using ECommerecAPI.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Diagnostics.Metrics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace E_CommerceSystem_API.Controllers
 {
-
     [ApiController]
     [Route("api/User")]
-    public class UserController: ControllerBase
+    public class UserController : ControllerBase
     {
-        public ApplicationDbContext _context;
-        public LoggingService _log;
-        public UserController(ApplicationDbContext context, LoggingService log)
+        private readonly UserServices _userServices;
 
+        public UserController(UserServices userServices)
         {
-            _context = context;
-            _log = log;
-
+            _userServices = userServices;
         }
-
-
 
         [HttpGet("GetUserById")]
         [Authorize(Roles = "Admin")]
         public IActionResult GetUserById(int id)
         {
-            _log.Log($"GetUserById called. UserId={id}");
+            var result = _userServices.GetUserById(id);
 
-            var user = _context.Users.FirstOrDefault(u => u.UserId == id);
-
-            if (user == null)
-            {
-                _log.Log($"User not found. UserId={id}");
+            if (result == null)
                 return NotFound("User not found");
-            }
 
-            var OutPutUsers = new List<UserOutputDTO>();
-
-            OutPutUsers.Add(new UserOutputDTO
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Phone = user.Phone
-            });
-
-            _log.Log($"User returned successfully. UserId={id}");
-
-            return Ok(OutPutUsers);
+            return Ok(result);
         }
-
-
-
-        
-
-
     }
 }
